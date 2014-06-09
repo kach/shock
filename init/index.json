@@ -1,0 +1,24 @@
+{
+    "title": "Comfotably Numbered",
+    "author": "Hardmath123",
+    "description": "My blog.",
+    "url": "http://hardmath123.github.io",
+
+    "templates": {
+        "header": "header.html",
+        "footer": "footer.html",
+        "postpage": "post.html",
+        "home": "home.html",
+        "404": "404.html"
+    },
+
+    "posts": [
+        {
+            "title": "Cows!",
+            "description": "Are awesome!",
+            "content": "cows.html",
+            "author": "Tim",
+            "date": "June 7, 2014"
+        }
+    ]
+}
