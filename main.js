@@ -5,6 +5,7 @@ var fs = require("fs"),
     mustache = require("mustache"),
     chalk = require("chalk"),
     ncp = require("ncp"),
+    prompt = require("prompt"),
     optp = require("nomnom").script("shock");
 
 
@@ -12,14 +13,32 @@ var success = chalk.green,
     failure = chalk.red;
 
 
+prompt.message = "(shock)";
+
 optp.command("init")
     .callback(function() {
-        ncp(__dirname+"/init", ".", function(err) {
+        prompt.start();
+        prompt.get(['title', 'author', 'description', 'url'], function(err, x) {
             if (err) {
-                console.log(failure("Failed to create directory structure. Hmph."));
+                console.log(failure("Aborted."));
                 process.exit();
             }
-            console.log(success("Minimal shock site initialized."));
+            ncp(__dirname+"/init", ".", function(err) {
+                if (err) {
+                    console.log(failure("Failed to create directory structure. Hmph."));
+                    process.exit();
+                }
+                fs.readFile("index.json", function(err, data) {
+                    var index = JSON.parse(data);
+                    index.title = x.title;
+                    index.author = x.author;
+                    index.description = x.description;
+                    index.url = x.url;
+                    fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
+                        console.log(success("Minimal shock site initialized."));
+                    });
+                });
+            });
         });
     });
 
@@ -91,6 +110,31 @@ optp.command("compile")
                 console.log(success("Created homepage."));
             })
         });
+    });
+
+optp.command("newpost")
+    .callback(function() {
+        fs.readFile("index.json", function(err, data) {
+            if (err) {
+                console.log(failure("Couldn't read index.json."));
+                process.exit();
+            }
+            var index = JSON.parse(data);
+            prompt.start();
+            prompt.get(
+                ['title', 'author', 'description', 'file', 'date'],
+                function(err, data) {
+                    if (err) {
+                        console.log(failure("Aborted."));
+                        process.exit();
+                    }
+                    index.posts.push(data);
+
+                    fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
+                        console.log(success("Post created."));
+                    });
+                });
+        })
     });
 
 var opts = optp.parse();
