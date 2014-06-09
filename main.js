@@ -3,8 +3,14 @@
 var fs = require("fs"),
     rss = require("rss"),
     mustache = require("mustache"),
+    chalk = require("chalk"),
     optp = require("nomnom")
         .script("shock");
+
+
+var success = chalk.green,
+    failure = chalk.red;
+
 
 optp.command("init")
     .callback(function() {
@@ -17,7 +23,13 @@ optp.command("compile")
             if (err) {
                 throw err;
             }
-            var index = JSON.parse(data);
+            var index;
+            try {
+                index = JSON.parse(data);
+            } catch(e) {
+                console.log(failure("index.json failed to parse (it has to be honest json, not a js object literal!)"));
+                process.exit();
+            }
 
             var header = fs.readFileSync("templates/" + index.templates.header).toString();
             var footer = fs.readFileSync("templates/" + index.templates.footer).toString();
@@ -55,7 +67,7 @@ optp.command("compile")
                     content: fs.readFileSync("content/" + item.content).toString()
                 }
                 fs.writeFile(item.content, mustache.render(postpage, view), function() {
-                    console.log("Created " + item.content);
+                    console.log(success("Created " + item.content));
                 });
 
 
@@ -63,14 +75,14 @@ optp.command("compile")
 
 
             fs.writeFile("feed.xml", feed.xml("    "), function() {
-                console.log("Created RSS feed.");
+                console.log(success("Created RSS feed."));
             });
             fs.writeFile("index.html", mustache.render(home, {
                 header: header,
                 footer: footer,
                 posts: items
             }), function() {
-                console.log("Created homepage.");
+                console.log(success("Created homepage."));
             })
         });
     });
