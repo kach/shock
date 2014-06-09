@@ -19,6 +19,11 @@ optp.command("compile")
             }
             var index = JSON.parse(data);
 
+            var header = fs.readFileSync("templates/" + index.templates.header).toString();
+            var footer = fs.readFileSync("templates/" + index.templates.footer).toString();
+            var postpage = fs.readFileSync("templates/" + index.templates.postpage).toString();
+            var home = fs.readFileSync("templates/" + index.templates.home).toString();
+
             // Create RSS feed
             var feed = new rss({
                 title: index.title,
@@ -38,6 +43,19 @@ optp.command("compile")
                     url: index.url + "/" + item.content,
                     date: item.date,
                     author: item.author || index.author
+                });
+
+                var view = {
+                    title: item.title,
+                    description: item.description,
+                    date: item.date,
+                    author: item.author,
+                    header: header,
+                    footer: footer,
+                    content: fs.readFileSync("content/" + item.content).toString()
+                }
+                fs.writeFile(item.content, mustache.render(postpage, view), function() {
+                    console.log("Created " + item.content);
                 });
 
 
