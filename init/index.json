@@ -1,8 +1,8 @@
 {
-    "title": "Comfotably Numbered",
-    "author": "Hardmath123",
-    "description": "My blog.",
-    "url": "http://hardmath123.github.io",
+    /*"title": "Comfotably Numbered",*/
+    /*"author": "Hardmath123",*/
+    /*"description": "My blog.",*/
+    /*"url": "http://hardmath123.github.io",*/
 
     "templates": {
         "header": "header.html",
@@ -14,11 +14,11 @@
 
     "posts": [
         {
-            "title": "Cows!",
-            "description": "Are awesome!",
-            "content": "cows.html",
-            "author": "Tim",
-            "date": "June 7, 2014"
+            "title": "Hello, World!",
+            "description": "My first post on Shock.",
+            "content": "hello-world.html",
+            /*"author": "Tim",*/
+            /*"date": "June 7, 2014"*/
         }
     ]
 }
