@@ -4,8 +4,8 @@ var fs = require("fs"),
     rss = require("rss"),
     mustache = require("mustache"),
     chalk = require("chalk"),
-    optp = require("nomnom")
-        .script("shock");
+    ncp = require("ncp"),
+    optp = require("nomnom").script("shock");
 
 
 var success = chalk.green,
@@ -14,7 +14,13 @@ var success = chalk.green,
 
 optp.command("init")
     .callback(function() {
-        console.log("Noooo.");
+        ncp(__dirname+"/init", ".", function(err) {
+            if (err) {
+                console.log(failure("Failed to create directory structure. Hmph."));
+                process.exit();
+            }
+            console.log(success("Minimal shock site initialized."));
+        });
     });
 
 optp.command("compile")
