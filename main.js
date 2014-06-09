@@ -122,12 +122,14 @@ optp.command("newpost")
             var index = JSON.parse(data);
             prompt.start();
             prompt.get(
-                ['title', 'author', 'description', 'file', 'date'],
+                ['title', 'author*', 'description', 'file', 'date*'],
                 function(err, data) {
                     if (err) {
                         console.log(failure("Aborted."));
                         process.exit();
                     }
+                    data.author = data.author || index.author;
+                    data.date = data.date || Date.now();
                     index.posts.push(data);
 
                     fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
