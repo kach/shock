@@ -60,6 +60,7 @@ optp.command("compile")
             var footer = fs.readFileSync("templates/" + index.templates.footer).toString();
             var postpage = fs.readFileSync("templates/" + index.templates.postpage).toString();
             var home = fs.readFileSync("templates/" + index.templates.home).toString();
+            var notfound = fs.readFileSync("templates/" + index.templates["404"]).toString();
 
             // Create RSS feed
             var feed = new rss({
@@ -108,7 +109,13 @@ optp.command("compile")
                 posts: items
             }), function() {
                 console.log(success("Created homepage."));
-            })
+            });
+            fs.writeFile("404.html", mustache.render(notfound, {
+                header: header,
+                footer: footer,
+            }), function() {
+                console.log(success("Created 404.html"));
+            });
         });
     });
 
