@@ -2,6 +2,7 @@
 
 var fs = require("fs"),
     rss = require("rss"),
+    mustache = require("mustache"),
     optp = require("nomnom")
         .script("shock");
 
@@ -38,6 +39,8 @@ optp.command("compile")
                     date: item.date,
                     author: item.author || index.author
                 });
+
+
             });
 
 
