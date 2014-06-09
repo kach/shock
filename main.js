@@ -65,6 +65,13 @@ optp.command("compile")
             fs.writeFile("feed.xml", feed.xml("    "), function() {
                 console.log("Created RSS feed.");
             });
+            fs.writeFile("index.html", mustache.render(home, {
+                header: header,
+                footer: footer,
+                posts: items
+            }), function() {
+                console.log("Created homepage.");
+            })
         });
     });
 
