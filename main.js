@@ -71,7 +71,7 @@ optp.command("compile")
             });
 
             var items = index.posts.sort(function(d) {
-                return new Date(d.date).getTime();
+                return -new Date(d.date).getTime();
             });
             items.forEach(function(item) {
                 feed.item({
