@@ -77,7 +77,7 @@ optp.command("compile")
                 feed.item({
                     title: item.title,
                     description: item.description,
-                    url: index.url + "/" + item.content,
+                    url: index.url + "/" + item.file,
                     date: item.date,
                     author: item.author || index.author
                 });
@@ -89,10 +89,10 @@ optp.command("compile")
                     author: item.author,
                     header: header,
                     footer: footer,
-                    content: fs.readFileSync("content/" + item.content).toString()
+                    content: fs.readFileSync("content/" + item.file).toString()
                 }
-                fs.writeFile(item.content, mustache.render(postpage, view), function() {
-                    console.log(success("Created " + item.content));
+                fs.writeFile(item.file, mustache.render(postpage, view), function() {
+                    console.log(success("Created " + item.file));
                 });
 
 
