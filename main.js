@@ -7,7 +7,7 @@ var fs = require("fs"),
     ncp = require("ncp"),
     prompt = require("prompt"),
     dateFormat = require("dateformat"),
-    markdown = require("markdown").markdown.toHTML,
+    marked = require("marked"),
     optp = require("nomnom").script("shock");
 
 
@@ -99,7 +99,7 @@ optp.command("compile")
                     author: item.author,
                     header: header,
                     footer: footer,
-                    content: item.markdown ? markdown(content) : content
+                    content: item.markdown ? marked(content) : content
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));
