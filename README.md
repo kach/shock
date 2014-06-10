@@ -25,10 +25,14 @@ A Shock blog consists of the following simple directory structure:
     │   ├── some.css
     │   └── more.js
     └── templates
-        ├── 404.html
-        ├── footer.html
-        ├── header.html
-        ├── home.html
-        └── post.html
+        ├── 404.html    # 404 page
+        ├── footer.html # footer (convenient for copyright...)
+        ├── header.html # header
+        ├── home.html   # index.html = homepage (list posts here)
+        └── post.html   # actual post page
 
 This can be generated automagically using `shock init`.
+
+Hints
+-----
+- In the command-line tools, prompts postfixed with a `*` can be left blank; they will be filled with a reasonable default.

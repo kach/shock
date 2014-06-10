@@ -7,11 +7,19 @@ var fs = require("fs"),
     ncp = require("ncp"),
     prompt = require("prompt"),
     dateFormat = require("dateformat"),
+    markdown = require("markdown").markdown.toHTML,
     optp = require("nomnom").script("shock");
 
 
 var success = chalk.green,
     failure = chalk.red;
+
+function isMarkdown(name) {
+    return name.split(".")[name.split(".").length-1] === "md";
+}
+function ensureHTML(name) {
+    return isMarkdown(name) ? name.replace(/\.md$/, ".html") : name;
+}
 
 
 prompt.message = "(shock)";
@@ -72,8 +80,8 @@ optp.command("compile")
                 language: index.lang || "en",
             });
 
-            var items = index.posts.sort(function(d) {
-                return -new Date(d.date).getTime();
+            var items = index.posts.sort(function(a, b) {
+                return new Date(b.date).getTime() - new Date(a.date).getTime();
             });
             items.forEach(function(item) {
                 feed.item({
@@ -83,7 +91,7 @@ optp.command("compile")
                     date: item.date,
                     author: item.author || index.author
                 });
-
+                var content = fs.readFileSync("content/" + item.file).toString();
                 var view = {
                     title: item.title,
                     description: item.description,
@@ -91,9 +99,9 @@ optp.command("compile")
                     author: item.author,
                     header: header,
                     footer: footer,
-                    content: fs.readFileSync("content/" + item.file).toString()
+                    content: item.markdown ? markdown(content) : content
                 }
-                fs.writeFile(item.file, mustache.render(postpage, view), function() {
+                fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));
                 });
 
@@ -104,18 +112,23 @@ optp.command("compile")
             fs.writeFile("feed.xml", feed.xml("    "), function() {
                 console.log(success("Created RSS feed."));
             });
-            fs.writeFile("index.html", mustache.render(home, {
-                header: header,
-                footer: footer,
-                posts: items
-            }), function() {
-                console.log(success("Created homepage."));
-            });
             fs.writeFile("404.html", mustache.render(notfound, {
                 header: header,
                 footer: footer,
             }), function() {
                 console.log(success("Created 404.html"));
+            });
+
+            fs.writeFile("index.html", mustache.render(home, {
+                header: header,
+                footer: footer,
+                posts: items.map(function(i) {
+                    i.file = ensureHTML(i.file);
+                    i.date = dateFormat(new Date(i.date), "shortDate");
+                    return i;
+                })
+            }), function() {
+                console.log(success("Created homepage."));
             });
         });
     });
@@ -130,11 +143,14 @@ optp.command("newpost")
             var index = JSON.parse(data);
             prompt.start();
             prompt.get(
-                ['title', 'author*', 'description', 'file', 'date*'],
+                ['title', 'author', 'description', 'file', 'date'],
                 function(err, data) {
                     if (err) {
                         console.log(failure("Aborted."));
                         process.exit();
+                    }
+                    if (isMarkdown(data.file)) {
+                        data.markdown = true;
                     }
                     data.author = data.author || index.author;
                     data.date = data.date || dateFormat(Date.now(), "shortDate");
