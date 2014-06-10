@@ -163,4 +163,35 @@ optp.command("newpost")
         })
     });
 
+optp.command("rm")
+    .option("name", {
+        position: 1,
+        required: true
+    })
+    .callback(function() {
+        fs.readFile("index.json", function(err, data) {
+            if (err) {
+                console.log(failure("Couldn't read index.json."));
+                process.exit();
+            }
+            var index = JSON.parse(data);
+
+            for (var i=0; i<index.posts.length; i++) {
+                if (index.posts[i].file === opts.name) {
+                    index.posts.splice(i, 1);
+                    console.log(success("Deleted."));
+                    break;
+                }
+            }
+            if (i === index.posts.length) {
+                console.log(failure("Nothing deleted."));
+            }
+
+            fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
+                console.log(success("Updated index."));
+            });
+
+        })
+    });
+
 var opts = optp.parse();
