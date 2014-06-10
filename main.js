@@ -6,6 +6,7 @@ var fs = require("fs"),
     chalk = require("chalk"),
     ncp = require("ncp"),
     prompt = require("prompt"),
+    dateFormat = require("dateformat"),
     optp = require("nomnom").script("shock");
 
 
@@ -86,7 +87,7 @@ optp.command("compile")
                 var view = {
                     title: item.title,
                     description: item.description,
-                    date: item.date,
+                    date: dateFormat(new Date(item.date), "fullDate"),
                     author: item.author,
                     header: header,
                     footer: footer,
@@ -136,7 +137,7 @@ optp.command("newpost")
                         process.exit();
                     }
                     data.author = data.author || index.author;
-                    data.date = data.date || Date.now();
+                    data.date = data.date || dateFormat(Date.now(), "shortDate");
                     index.posts.push(data);
 
                     fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
