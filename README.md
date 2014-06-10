@@ -7,7 +7,7 @@ Usage
 -----
 
 1. **Begin:** (Install `node` and `npm`, then) run `npm install -g shock`
-2. **Write:** Save content under `/content`. Run `shock newpost` to register that post in `index.json`.
+2. **Write:** Save content under `/content` as HTML or Markdown. Run `shock newpost` to register that post in `index.json`.
 3. **Publish:** Run `shock compile` to compile a static website, which you can then host on anything that serves static files.
 4. **Customize:** Edit files under `/templates` to customize your blog.
 
@@ -35,4 +35,4 @@ This can be generated automagically using `shock init`.
 
 Hints
 -----
-- In the command-line tools, prompts postfixed with a `*` can be left blank; they will be filled with a reasonable default.
+- In `shock newpost`, leave `author` and `date` blank for reasonable defaults to be filled in.
