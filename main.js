@@ -87,7 +87,7 @@ optp.command("compile")
                 feed.item({
                     title: item.title,
                     description: item.description,
-                    url: index.url + "/" + item.file,
+                    url: index.url + "/" + ensureHTML(item.file),
                     date: item.date,
                     author: item.author || index.author
                 });
