@@ -99,7 +99,8 @@ optp.command("compile")
                     author: item.author,
                     header: header,
                     footer: footer,
-                    content: item.markdown ? marked(content) : content
+                    content: item.markdown ? marked(content) : content,
+                    file: item.file
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));
