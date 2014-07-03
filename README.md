@@ -12,7 +12,7 @@ Usage
 4. **Customize:** Edit files under `/templates` to customize your blog.
 5. **Facepalm:** Quickly unregister a post with `shock rm *name*`.
 
-*(www.nodejs.org)
+*www.nodejs.org
 
 Basic Structure (reference)
 ---------------------------
