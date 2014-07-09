@@ -84,14 +84,15 @@ optp.command("compile")
                 return new Date(b.date).getTime() - new Date(a.date).getTime();
             });
             items.forEach(function(item) {
+                var content = fs.readFileSync("content/" + item.file).toString();
                 feed.item({
                     title: item.title,
-                    description: item.description,
+                    description: item.description + "\n\n" + content,
                     url: index.url + "/" + ensureHTML(item.file),
                     date: item.date,
                     author: item.author || index.author
                 });
-                var content = fs.readFileSync("content/" + item.file).toString();
+                
                 var view = {
                     title: item.title,
                     description: item.description,
