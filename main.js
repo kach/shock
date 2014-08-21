@@ -10,6 +10,9 @@ var fs = require("fs"),
     marked = require("marked"),
     optp = require("nomnom").script("shock");
 
+marked.setOptions({
+    smartypants: true
+});
 
 var success = chalk.green,
     failure = chalk.red;
