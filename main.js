@@ -158,7 +158,7 @@ optp.command("newpost")
                         data.markdown = true;
                     }
                     data.author = data.author || index.author;
-                    data.date = data.date || dateFormat(Date.now(), "shortDate");
+                    data.date = data.date || dateFormat(Date.now(), "isoDate");
                     index.posts.push(data);
 
                     fs.writeFile("index.json", JSON.stringify(index, null, 4), function(err) {
