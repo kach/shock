@@ -108,7 +108,7 @@ optp.command("compile")
                     footer: footer,
                     content: item.markdown ? marked(content) : content,
                     file: item.file,
-                    time: Math.ceil(wordcount(content) / 5.5);
+                    time: Math.ceil(wordcount(content) / 5.5)
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));
