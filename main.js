@@ -8,7 +8,8 @@ var fs = require("fs"),
     prompt = require("prompt"),
     dateFormat = require("dateformat"),
     marked = require("marked"),
-    optp = require("nomnom").script("shock");
+    optp = require("nomnom").script("shock"),
+    wordcount = require('wordcount');
 
 marked.setOptions({
     smartypants: true
@@ -106,7 +107,8 @@ optp.command("compile")
                     header: header,
                     footer: footer,
                     content: item.markdown ? marked(content) : content,
-                    file: item.file
+                    file: item.file,
+                    wordcount: wordcount(content)
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));

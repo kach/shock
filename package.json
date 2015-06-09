@@ -16,13 +16,14 @@
   "author": "Hardmath123",
   "license": "MIT",
   "dependencies": {
-    "rss": "~0.3.2",
-    "nomnom": "~1.7.0",
-    "mustache": "~0.8.1",
     "chalk": "~0.4.0",
-    "ncp": "~0.5.1",
-    "prompt": "~0.2.13",
     "dateformat": "~1.0.8-1.2.3",
-    "marked": "~0.3.2"
+    "marked": "~0.3.2",
+    "mustache": "~0.8.1",
+    "ncp": "~0.5.1",
+    "nomnom": "~1.7.0",
+    "prompt": "~0.2.13",
+    "rss": "~0.3.2",
+    "wordcount": "^1.0.0"
   }
 }
