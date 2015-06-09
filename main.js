@@ -79,6 +79,8 @@ optp.command("compile")
                 title: index.title,
                 description: index.description,
                 site_url: index.url,
+                feed_url: index.url+"/feed.xml",
+                image_url: index.img,
                 author: index.author,
                 language: index.lang || "en",
             });
