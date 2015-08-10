@@ -134,6 +134,7 @@ optp.command("compile")
                 posts: items.map(function(i) {
                     i.file = ensureHTML(i.file);
                     i.date = dateFormat(new Date(i.date), "shortDate");
+                    i.description = marked(i.description);
                     return i;
                 })
             }), function() {
