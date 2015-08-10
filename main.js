@@ -93,7 +93,7 @@ optp.command("compile")
                 var content = fs.readFileSync("content/" + item.file).toString();
                 feed.item({
                     title: item.title,
-                    description: item.description + "\n\n" + (item.markdown ? marked(content) : content),
+                    description: marked(item.description) + "\n\n" + (item.markdown ? marked(content) : content),
                     url: index.url + "/" + ensureHTML(item.file),
                     date: item.date,
                     author: item.author || index.author
@@ -101,7 +101,7 @@ optp.command("compile")
 
                 var view = {
                     title: item.title,
-                    description: item.description,
+                    description: marked(item.description),
                     date: dateFormat(new Date(item.date), "fullDate"),
                     author: item.author,
                     header: header,
