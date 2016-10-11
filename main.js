@@ -88,6 +88,8 @@ optp.command("compile")
 
             var items = index.posts.sort(function(a, b) {
                 return new Date(b.date).getTime() - new Date(a.date).getTime();
+            }).filter(function(p) {
+                return !p.draft;
             });
             items.forEach(function(item) {
                 var content = fs.readFileSync("content/" + item.file).toString();
