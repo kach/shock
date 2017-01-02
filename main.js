@@ -91,7 +91,7 @@ optp.command("compile")
             }).filter(function(p) {
                 return !p.draft;
             });
-            items.forEach(function(item) {
+            var posts = items.map(function(item) {
                 var content = fs.readFileSync("content/" + item.file).toString();
                 feed.item({
                     title: item.title,
@@ -109,14 +109,15 @@ optp.command("compile")
                     header: header,
                     footer: footer,
                     content: item.markdown ? marked(content) : content,
-                    file: item.file,
+                    teaser: (item.markdown ? marked(content) : content).split("</p>")[0],
+                    file: ensureHTML(item.file),
                     time: Math.ceil(wordcount(content) / 5.5 / 60)
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
                     console.log(success("Created " + item.file));
                 });
 
-
+                return view;
             });
 
 
@@ -133,12 +134,7 @@ optp.command("compile")
             fs.writeFile("index.html", mustache.render(home, {
                 header: header,
                 footer: footer,
-                posts: items.map(function(i) {
-                    i.file = ensureHTML(i.file);
-                    i.date = dateFormat(new Date(i.date), "shortDate");
-                    i.description = marked(i.description);
-                    return i;
-                })
+                posts: posts
             }), function() {
                 console.log(success("Created homepage."));
             });
