@@ -90,7 +90,7 @@ optp.command("compile")
                 return new Date(b.date).getTime() - new Date(a.date).getTime();
             }).filter(function(p) {
                 return !p.draft;
-            });
+            }).slice(0, 10);
             items.forEach(function(item) {
                 var content = fs.readFileSync("content/" + item.file).toString();
                 feed.item({
