@@ -90,16 +90,19 @@ optp.command("compile")
                 return new Date(b.date).getTime() - new Date(a.date).getTime();
             }).filter(function(p) {
                 return !p.draft;
-            }).slice(0, 10);
-            items.forEach(function(item) {
+            });
+            items.forEach(function(item, i) {
                 var content = fs.readFileSync("content/" + item.file).toString();
-                feed.item({
-                    title: item.title,
-                    description: marked(item.description) + "\n\n" + (item.markdown ? marked(content) : content),
-                    url: index.url + "/" + ensureHTML(item.file),
-                    date: item.date,
-                    author: item.author || index.author
-                });
+                
+                if (i < 10) {
+                  feed.item({
+                      title: item.title,
+                      description: marked(item.description) + "\n\n" + (item.markdown ? marked(content) : content),
+                      url: index.url + "/" + ensureHTML(item.file),
+                      date: item.date,
+                      author: item.author || index.author
+                  });
+                }
 
                 var view = {
                     title: item.title,
