@@ -74,6 +74,7 @@ optp.command("compile")
             var postpage = fs.readFileSync("templates/" + index.templates.postpage).toString();
             var home = fs.readFileSync("templates/" + index.templates.home).toString();
             var notfound = fs.readFileSync("templates/" + index.templates["404"]).toString();
+            var archive = fs.readFileSync("templates/" + index.templates.archive).toString();
 
             // Create RSS feed
             var feed = new rss({
@@ -145,6 +146,20 @@ optp.command("compile")
             }), function() {
                 console.log(success("Created homepage."));
             });
+
+            fs.writeFile("archive.html", mustache.render(archive, {
+                header: header,
+                footer: footer,
+                posts: items.map(function(i) {
+                    i.file = ensureHTML(i.file);
+                    i.date = dateFormat(new Date(i.date), "shortDate");
+                    i.description = marked(i.description);
+                    return i;
+                })
+            }), function() {
+                console.log(success("Created archive."));
+            });
+
         });
     });
 
