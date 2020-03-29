@@ -136,7 +136,7 @@ optp.command("compile")
             fs.writeFile("index.html", mustache.render(home, {
                 header: header,
                 footer: footer,
-                posts: items.map(function(i) {
+                posts: items.slice(0, 10).map(function(i) {
                     i.file = ensureHTML(i.file);
                     i.date = dateFormat(new Date(i.date), "shortDate");
                     i.description = marked(i.description);
