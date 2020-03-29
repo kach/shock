@@ -1,6 +1,6 @@
 {
   "name": "shock",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A static blog manager for gh-pages.",
   "main": "main.js",
   "bin": "main.js",
