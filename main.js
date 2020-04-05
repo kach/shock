@@ -113,7 +113,7 @@ optp.command("compile")
                     header: header,
                     footer: footer,
                     content: item.markdown ? marked(content) : content,
-                    file: item.file,
+                    file: ensureHTML(item.file),
                     time: Math.ceil(wordcount(content) / 5.5 / 60)
                 }
                 fs.writeFile(ensureHTML(item.file), mustache.render(postpage, view), function() {
